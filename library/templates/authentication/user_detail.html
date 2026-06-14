@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h3>Профіль: {{ user_obj.email }}</h3>
+    </div>
+    <div class="card-body">
+        <p><strong>Ім'я:</strong> {{ user_obj.first_name }} {{ user_obj.last_name }}</p>
+        <p><strong>Роль:</strong> {% if user_obj.role == 1 %}Бібліотекар{% else %}Читач{% endif %}</p>
+        <p><strong>Статус:</strong> {% if user_obj.is_active %}Активний ✅{% else %}Заблокований ❌{% endif %}</p>
+        
+        <a href="{% url 'user_books' user_obj.id %}" class="btn btn-info text-white mt-3">Переглянути взяті книги</a>
+        <a href="{% url 'user_list' %}" class="btn btn-secondary mt-3 ms-2">Назад до списку</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Користувачі</h2>
+
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Email</th>
+            <th>Ім'я</th>
+            <th>Прізвище</th>
+            <th>Роль</th>
+            <th>Деталі</th>
+
+            {% if request.user.role == 1 %}
+                <th>Дії</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>
+                    {% if user.role == 1 %}
+                        Librarian
+                    {% else %}
+                        User
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'user_detail' user.id %}" class="btn btn-outline-primary btn-sm">
+                        Переглянути
+                    </a>
+                </td>
+                {% if request.user.role == 1 %}
+                <td>
+                    <a href="{% url 'user_update' user.id %}" class="btn btn-warning btn-sm">
+                        Редагувати
+                    </a>
+
+                    <a href="{% url 'user_delete' user.id %}" class="btn btn-danger btn-sm">
+                        Видалити
+                    </a>
+                </td>
+                {% endif %}
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="7" class="text-muted">Користувачів немає.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
