@@ -139,18 +139,13 @@ def book_delete(request, book_id):
 class BookListApiView(APIView):
     def get(self, request):
         books = Book.objects.all()
+        for book in books:
+            print(book.id)
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)  
     
     def post(self, request):
-        data = {
-            'name': request.data.get('name'),
-            'description': request.data.get('description'),
-            'count':request.data.get('count'),
-            'authors': request.data.get('authors')
-        }
-        
-        serializer = BookSerializer(data=data)
+        serializer = BookSerializer(data=request.data)
         
         if serializer.is_valid():
             serializer.save()
